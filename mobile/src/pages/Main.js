@@ -9,7 +9,7 @@ import api from '../services/api'
 function Main({ navigation }){
     const [devs, setDevs] = useState([])
     const [currentRegion, setCurrentRegion] = useState(null)
-
+    const [techs, setTechs] = useState('')
     useEffect(() => {
        async function loadInitialPosition() {
             const { granted } = await requestPermissionsAsync()
@@ -38,11 +38,11 @@ function Main({ navigation }){
             params: {
                 latitude,
                 longitude,
-                techs: 'ReactJS'
+                techs
             }
         })
-
-        setDevs(response.data)
+        console.log(response.data.devs)
+        setDevs(response.data.devs)
     }
 
     function handleRegionChanged(region){
@@ -59,20 +59,25 @@ function Main({ navigation }){
         onRegionChangeComplete={handleRegionChanged} 
         initialRegion={currentRegion} 
         style={styles.map}>
-            <Marker coordinate={{ latitude: -22.8634532, longitude: -43.2481356}}>
-                <Image style={styles.avatar} source={{ uri: 'https://avatars2.githubusercontent.com/u/28743763?s=460&v=4'}}></Image>
+            {devs.map(dev => (
+                <Marker key={dev._id} coordinate={{ 
+                    longitude: dev.location.coordinates[0],
+                    latitude: dev.location.coordinates[1]
+                }}>
+                <Image style={styles.avatar} source={{ uri: dev.avatar_url }}></Image>
                 <Callout onPress={() => {
                     navigation.navigate('Profile', {
-                        github_username: 'manoribeiro'
+                        github_username: dev.github_username
                     })
                 }}>
                     <View style={styles.callout}>
-                        <Text style={styles.devName}>Manoel Ribeiro</Text>
-                        <Text style={styles.devBio}>Carreira em desenvolvimento de software, com competência para atuar na construção de aplicações web Full Stack.</Text>
-                        <Text style={styles.devTechs}>React JS, React Native, Java, PHP</Text>
+                        <Text style={styles.devName}>{dev.name}</Text>
+                        <Text style={styles.devBio}>{dev.bio}</Text>
+                        <Text style={styles.devTechs}>{dev.techs.join(', ')}</Text>
                     </View>
                 </Callout>
             </Marker>
+            ))}
         </MapView>
         <View style={styles.searchForm}>
             <TextInput 
@@ -80,9 +85,11 @@ function Main({ navigation }){
                 placeholder="Buscar devs por techs..."
                 placeholderTextColor="#999"
                 autoCapitalize="words"
-                autoCorrect={false}    
+                autoCorrect={false} 
+                value={techs}
+                onChangeText={setTechs}
             ></TextInput>
-            <TouchableOpacity onPress={() => {}} style={styles.loadButton}>
+            <TouchableOpacity onPress={loadDevs} style={styles.loadButton}>
                 <MaterialIcons name="my-location" size={20} color="#fff" />
             </TouchableOpacity>
         </View>
