@@ -35,7 +35,7 @@ function Main(){
     return (
         <MapView initialRegion={currentRegion} style={styles.map}>
             <Marker coordinate={{ latitude: -22.8634532, longitude: -43.2481356}}>
-                <Image style={StyleSheet.avatar} source={{ uri: 'https://avatars2.githubusercontent.com/u/28743763?s=460&v=4'}}></Image>
+                <Image style={styles.avatar} source={{ uri: 'https://avatars2.githubusercontent.com/u/28743763?s=460&v=4'}}></Image>
             </Marker>
         </MapView>
     )
@@ -46,7 +46,11 @@ const styles = StyleSheet.create({
         flex: 1
     },
     avatar: {
-        
+        width: 54,
+        height: 54,
+        borderRadius: 4,
+        borderWidth: 4,
+        borderColor: '#fff'
     }
 })
 
