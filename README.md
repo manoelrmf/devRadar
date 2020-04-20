@@ -9,22 +9,38 @@ width="95%" height="400px"
 
 ## Getting Started
 
+Instalar dependências do back-end
+
+```
+cd backend && npm install
+```
+
 Executar back-end
 
 ```
-cd backend && npm run dev
+npm run dev
+```
+Instalar dependências do front-end web
+
+```
+cd web && npm install
 ```
 
-Executar front-end
+Executar front-end web
 
 ```
-cd web && npm start
+npm start
+```
+Instalar dependências do app mobile
+
+```
+cd mobile && npm install
 ```
 
 Executar mobile
 
 ```
-cd mobile && npm start
+npm start
 ```
 
 ## Authors
